@@ -16,6 +16,7 @@ import com.pblgllgs.backend.role.RoleRepository;
 import com.pblgllgs.backend.user.*;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,7 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +46,10 @@ public class AuthenticationService {
     @Transactional
     public void register(RegistrationRequest registrationRequest) throws MessagingException {
         Role role = roleRepository.findByName("USER").orElseThrow(() -> new ResourceNotFoundException("ROLE_NOT_FOUND"));
+        Optional<User> userOptional = userRepository.findByEmail(registrationRequest.email());
+        if (userOptional.isPresent()){
+            throw new DataIntegrityViolationException("User already exists");
+        }
         User user = User.builder()
                 .firstname(registrationRequest.firstname())
                 .lastname(registrationRequest.lastname())

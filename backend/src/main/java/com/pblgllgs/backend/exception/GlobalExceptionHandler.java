@@ -3,6 +3,7 @@ package com.pblgllgs.backend.exception;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -97,20 +98,20 @@ public class GlobalExceptionHandler {
         return errorsMap;
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionResponse> handleException(
-            Exception ex,
-            HttpServletRequest request
-    ) {
-        ex.printStackTrace();
-        ExceptionResponse exceptionResponse = ExceptionResponse.builder()
-                .businessErrorDescription("Internal error, contact admin")
-                .error(ex.getMessage())
-                .localDateTime(LocalDateTime.now())
-                .path(request.getRequestURI())
-                .build();
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ExceptionResponse> handleException(
+//            Exception ex,
+//            HttpServletRequest request
+//    ) {
+//        ex.printStackTrace();
+//        ExceptionResponse exceptionResponse = ExceptionResponse.builder()
+//                .businessErrorDescription("Internal error, contact admin")
+//                .error(ex.getMessage())
+//                .localDateTime(LocalDateTime.now())
+//                .path(request.getRequestURI())
+//                .build();
+//        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleException(
@@ -140,6 +141,21 @@ public class GlobalExceptionHandler {
                 .path(request.getRequestURI())
                 .build();
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ExceptionResponse> handleException(
+            DataIntegrityViolationException ex,
+            HttpServletRequest request
+    ) {
+        ExceptionResponse exceptionResponse = ExceptionResponse.builder()
+                .businessErrorCode(BusinessErrorCodes.RESOURCE_ALREADY_EXISTS.getCode())
+                .businessErrorDescription(BusinessErrorCodes.RESOURCE_ALREADY_EXISTS.getDescription())
+                .error(ex.getMessage())
+                .localDateTime(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .build();
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -61,3 +61,5 @@ Xbackend/src/main/java/com/pblgllgs/backend/exception/ActivationCodeExpiredExcep
 Kbackend/src/main/java/com/pblgllgs/backend/exception/ExceptionResponse.java,c\e\ce6fd3076845e604eaced06dedd3ef08b539d976
 |
 Lbackend/src/main/java/com/pblgllgs/backend/exception/BusinessErrorCodes.java,a\9\a95f66283d6c1f6ca77c933da27824b3e0051749
+„
+Tbackend/src/main/java/com/pblgllgs/backend/exception/UserAlreadyExistsException.java,d\5\d50f7998039ede47171d9af5017e4ea3d69527d3
