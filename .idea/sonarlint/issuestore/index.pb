@@ -51,3 +51,13 @@ r
 Bbackend/src/main/java/com/pblgllgs/backend/exception/ErrorDTO.java,7\5\753d3ba737d32ccb414372f78a763709ba0d914a
 q
 Abackend/src/main/java/com/pblgllgs/backend/dataloader/Loader.java,e\a\eae8c7c4bd28db13f02b479ccf47fe25b3fb7a8e
+{
+Kbackend/src/main/java/com/pblgllgs/backend/auth/AuthenticationResponse.java,0\0\00db6bdce0103a0ad028fb91c8ca721901bc775c
+z
+Jbackend/src/main/java/com/pblgllgs/backend/auth/AuthenticationRequest.java,2\f\2f7516a96dfe4c8919ae624ea5c270998dd91066
+ˆ
+Xbackend/src/main/java/com/pblgllgs/backend/exception/ActivationCodeExpiredException.java,1\f\1f466d33a6e6a52ea118f529cc02e6cbf767c90b
+{
+Kbackend/src/main/java/com/pblgllgs/backend/exception/ExceptionResponse.java,c\e\ce6fd3076845e604eaced06dedd3ef08b539d976
+|
+Lbackend/src/main/java/com/pblgllgs/backend/exception/BusinessErrorCodes.java,a\9\a95f66283d6c1f6ca77c933da27824b3e0051749
