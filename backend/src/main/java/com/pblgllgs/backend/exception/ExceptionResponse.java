@@ -27,6 +27,7 @@ public class ExceptionResponse {
     private String error;
     private String path;
     private LocalDateTime localDateTime;
-    private Map<String,String> validationErrors;
+//    private Map<String,String> validationErrors;
+    private Set<String> validationErrors;
     private Map<String,String> errors;
 }

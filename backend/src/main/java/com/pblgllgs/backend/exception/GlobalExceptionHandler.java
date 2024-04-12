@@ -84,19 +84,40 @@ public class GlobalExceptionHandler {
             MethodArgumentNotValidException ex,
             HttpServletRequest request
     ) {
+        Set<String> errors = new HashSet<>();
+        ex.getBindingResult().getAllErrors()
+                .forEach(
+                        error -> {
+                            String errorMessage = error.getDefaultMessage();
+                            errors.add(errorMessage);
+                        }
+                );
         ExceptionResponse exceptionResponse = ExceptionResponse.builder()
-                .validationErrors(extractErrors(ex.getBindingResult().getFieldErrors()))
+                .validationErrors(errors)
                 .localDateTime(LocalDateTime.now())
                 .path(request.getRequestURI())
                 .build();
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
-    private Map<String, String> extractErrors(List<FieldError> listErrors) {
-        Map<String, String> errorsMap = new HashMap<>();
-        listErrors.forEach(error -> errorsMap.put(error.getField(), error.getDefaultMessage()));
-        return errorsMap;
-    }
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<ExceptionResponse> handleException(
+//            MethodArgumentNotValidException ex,
+//            HttpServletRequest request
+//    ) {
+//        ExceptionResponse exceptionResponse = ExceptionResponse.builder()
+//                .validationErrors(extractErrors(ex.getBindingResult().getFieldErrors()))
+//                .localDateTime(LocalDateTime.now())
+//                .path(request.getRequestURI())
+//                .build();
+//        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+//    }
+//
+//    private Map<String, String> extractErrors(List<FieldError> listErrors) {
+//        Map<String, String> errorsMap = new HashMap<>();
+//        listErrors.forEach(error -> errorsMap.put(error.getField(), error.getDefaultMessage()));
+//        return errorsMap;
+//    }
 
 //    @ExceptionHandler(Exception.class)
 //    public ResponseEntity<ExceptionResponse> handleException(
