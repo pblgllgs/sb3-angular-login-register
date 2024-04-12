@@ -1,0 +1,18 @@
+<div class="container-fluid card login-container">
+    <h3 class="text-center">Login</h3>
+    <hr />
+    <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">
+      <p *ngFor="let msg of errorMsg">{{ msg }}</p>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="login">Email Address</label>
+      <input
+        [(ngModel)]=""
+        type="email"
+        class="form-ccontrol"
+        id="login"
+        placeholder="name@example.com"
+      />
+    </div>
+  </div>
+  
