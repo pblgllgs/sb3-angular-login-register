@@ -44,7 +44,7 @@ public class Role {
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     @JoinTable(
-            name = "user_role",
+            name = "_user_roles",
             joinColumns = @JoinColumn(
                     name = "userId",
                     referencedColumnName = "id",

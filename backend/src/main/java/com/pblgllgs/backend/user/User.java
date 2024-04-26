@@ -6,6 +6,8 @@ package com.pblgllgs.backend.user;
  *
  */
 
+import com.pblgllgs.backend.book.Book;
+import com.pblgllgs.backend.history.BookTransactionHistory;
 import com.pblgllgs.backend.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -54,6 +56,12 @@ public class User implements UserDetails, Principal {
 
     @ManyToMany(mappedBy = "users")
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+
+    @OneToMany(mappedBy = "user")
+    private List<BookTransactionHistory> histories;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
