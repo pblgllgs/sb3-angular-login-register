@@ -1,0 +1,26 @@
+package com.pblgllgs.backend.book;
+
+import lombok.*;
+
+/*
+ *
+ * @author pblgl
+ * Created on 26-04-2024
+ *
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class BookResponse{
+    private Integer id;
+    private String title;
+    private String authorName;
+    private String isbn;
+    private String synopsis;
+    private String owner;
+    private byte[] cover;
+    private double rate;
+    private boolean archived;
+    private boolean shareable;
+}
