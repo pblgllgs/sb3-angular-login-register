@@ -91,8 +91,6 @@ p
 @backend/src/main/java/com/pblgllgs/backend/book/BookService.java,7\6\76f358281c9ac7dd816e9af40dc887af40fe4bb4
 s
 Cbackend/src/main/java/com/pblgllgs/backend/book/BookRepository.java,a\c\ac59a6d6d8b30cbef651993537b0642cf2c7f416
-o
-?backend/src/main/java/com/pblgllgs/backend/dto/BookRequest.java,a\2\a29527502563a4e5bcaadf0339be4aa27a4fde6a
 p
 @backend/src/main/java/com/pblgllgs/backend/book/BookRequest.java,3\b\3bb86f366c362603ce0ce4d26579ff50d626dc62
 o
@@ -103,3 +101,9 @@ s
 Cbackend/src/main/java/com/pblgllgs/backend/common/PageResponse.java,0\6\06913e266b83d6c6ab40b3847d814e46682c29ff
 v
 Fbackend/src/main/java/com/pblgllgs/backend/book/BookSpecification.java,e\e\ee77867d780a6fe283a52f48d9db14d7e7243871
+…
+Ubackend/src/main/java/com/pblgllgs/backend/book/BookTransactionHistoryRepository.java,a\c\ace039d4de2cf7b04e8cbde78d4e57480a2ed1ab
+y
+Ibackend/src/main/java/com/pblgllgs/backend/book/BorrowedBookResponse.java,0\0\0090b3a22c57136ecfa7aa21d8a817b4e8db9a83
+ˆ
+Xbackend/src/main/java/com/pblgllgs/backend/exception/OperationNotPermittedException.java,9\5\957d5e14db6f6cb8f530ad654adbb6b2d90a83dd

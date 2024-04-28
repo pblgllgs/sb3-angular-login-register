@@ -15,6 +15,7 @@ public enum BusinessErrorCodes {
     RESOURCE_NOT_FOUND(404, HttpStatus.NOT_FOUND, "Resource not found"),
     ACTIVATION_CODE_EXPIRED(400, HttpStatus.BAD_REQUEST, "Activation code expired"),
     RESOURCE_ALREADY_EXISTS(400, HttpStatus.BAD_REQUEST, "Resource already exists"),
+    OPERATION_NOT_PERMITTED(400, HttpStatus.BAD_REQUEST, "Operation not permitted"),
     ;
 
     private final int code;

@@ -45,12 +45,63 @@ public class BookController {
         return new ResponseEntity<>(bookService.findAllProducts(page, size, connectedUser), HttpStatus.OK);
     }
 
-    @GetMapping("/{owner}")
+    @GetMapping("/owner")
     public ResponseEntity<PageResponse<BookResponse>> findAllBooksByOwner(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "0", required = false) int size,
             Authentication connectedUser
     ) {
-        return new ResponseEntity<>(bookService.findBooksByOwner(page, size,connectedUser), HttpStatus.OK);
+        return new ResponseEntity<>(bookService.findAllBooksByOwner(page, size, connectedUser), HttpStatus.OK);
     }
+
+    @GetMapping("/borrowed")
+    public ResponseEntity<PageResponse<BorrowedBookResponse>> findAllBorrowedBooks(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "0", required = false) int size,
+            Authentication connectedUser
+    ) {
+        return new ResponseEntity<>(bookService.findAllBorrowedBooks(page, size, connectedUser), HttpStatus.OK);
+    }
+
+    @GetMapping("/returned")
+    public ResponseEntity<PageResponse<BorrowedBookResponse>> findAllReturnedBooks(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "0", required = false) int size,
+            Authentication connectedUser
+    ) {
+        return new ResponseEntity<>(bookService.findAllReturnedBooks(page, size, connectedUser), HttpStatus.OK);
+    }
+
+    @PatchMapping("/sharable/{bookId}")
+    public ResponseEntity<Integer> updateShareableStatus(
+            @PathVariable("bookId") Integer bookId,
+            Authentication connectedUser
+    ) {
+        return new ResponseEntity<>(bookService.updateShareableStatus(bookId, connectedUser), HttpStatus.OK);
+    }
+
+    @PatchMapping("/archived/{bookId}")
+    public ResponseEntity<Integer> updateArchivedStatus(
+            @PathVariable("bookId") Integer bookId,
+            Authentication connectedUser
+    ) {
+        return new ResponseEntity<>(bookService.updateArchiveStatus(bookId, connectedUser), HttpStatus.OK);
+    }
+
+    @PostMapping("/borrow/{bookId}")
+    public ResponseEntity<Integer> borrowBook(
+            @PathVariable("bookId") Integer bookId,
+                    Authentication connectedUser
+            ){
+        return new ResponseEntity<>(bookService.borrowBook(bookId,connectedUser), HttpStatus.OK);
+    }
+
+    @PatchMapping("/borrow/return/{bookId}")
+    public ResponseEntity<Integer> returnBorrowBook(
+            @PathVariable("bookId") Integer bookId,
+            Authentication connectedUser
+    ){
+        return new ResponseEntity<>(bookService.returnBorrowBook(bookId,connectedUser), HttpStatus.OK);
+    }
+
 }

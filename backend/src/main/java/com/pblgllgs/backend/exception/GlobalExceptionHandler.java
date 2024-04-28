@@ -149,19 +149,34 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(OperationNotPermittedException.class)
+    public ResponseEntity<ExceptionResponse> handleException(
+            OperationNotPermittedException ex,
+            HttpServletRequest request
+    ) {
+        ExceptionResponse exceptionResponse = ExceptionResponse.builder()
+                .businessErrorCode(BusinessErrorCodes.OPERATION_NOT_PERMITTED.getCode())
+                .businessErrorDescription(BusinessErrorCodes.OPERATION_NOT_PERMITTED.getDescription())
+                .error(ex.getMessage())
+                .localDateTime(LocalDateTime.now())
+                .path(request.getRequestURI())
+                .build();
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(ActivationCodeExpiredException.class)
     public ResponseEntity<ExceptionResponse> handleException(
             ActivationCodeExpiredException ex,
             HttpServletRequest request
     ) {
         ExceptionResponse exceptionResponse = ExceptionResponse.builder()
-                .businessErrorCode(BusinessErrorCodes.RESOURCE_NOT_FOUND.getCode())
-                .businessErrorDescription(BusinessErrorCodes.RESOURCE_NOT_FOUND.getDescription())
+                .businessErrorCode(BusinessErrorCodes.ACTIVATION_CODE_EXPIRED.getCode())
+                .businessErrorDescription(BusinessErrorCodes.ACTIVATION_CODE_EXPIRED.getDescription())
                 .error(ex.getMessage())
                 .localDateTime(LocalDateTime.now())
                 .path(request.getRequestURI())
                 .build();
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

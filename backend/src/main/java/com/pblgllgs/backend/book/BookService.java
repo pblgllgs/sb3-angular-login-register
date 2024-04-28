@@ -1,7 +1,9 @@
 package com.pblgllgs.backend.book;
 
 import com.pblgllgs.backend.common.PageResponse;
+import com.pblgllgs.backend.exception.OperationNotPermittedException;
 import com.pblgllgs.backend.exception.ResourceNotFoundException;
+import com.pblgllgs.backend.history.BookTransactionHistory;
 import com.pblgllgs.backend.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /*
  *
@@ -25,6 +29,7 @@ public class BookService {
 
     private final BookMapper bookMapper;
     private final BookRepository bookRepository;
+    private final BookTransactionHistoryRepository bookTransactionHistoryRepository;
 
     public Integer save(BookRequest bookRequest, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
@@ -59,7 +64,7 @@ public class BookService {
         );
     }
 
-    public PageResponse<BookResponse> findBooksByOwner(int page, int size, Authentication connectedUser) {
+    public PageResponse<BookResponse> findAllBooksByOwner(int page, int size, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<Book> books = bookRepository.findAll(BookSpecification.withOwnerId(user.getId()), pageable);
@@ -75,5 +80,106 @@ public class BookService {
                 books.isFirst(),
                 books.isLast()
         );
+    }
+
+    public PageResponse<BorrowedBookResponse> findAllBorrowedBooks(int page, int size, Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<BookTransactionHistory> allBorrowedBooks = bookTransactionHistoryRepository.findAllBorrowedBooks(pageable, user.getId());
+        List<BorrowedBookResponse> borrowedBookResponses = allBorrowedBooks.stream()
+                .map(bookMapper::toBorrowedBookResponse)
+                .toList();
+        return new PageResponse<>(
+                borrowedBookResponses,
+                allBorrowedBooks.getNumber(),
+                allBorrowedBooks.getSize(),
+                allBorrowedBooks.getTotalElements(),
+                allBorrowedBooks.getTotalPages(),
+                allBorrowedBooks.isFirst(),
+                allBorrowedBooks.isLast()
+        );
+    }
+
+    public PageResponse<BorrowedBookResponse> findAllReturnedBooks(int page, int size, Authentication connectedUser) {
+        User user = (User) connectedUser.getPrincipal();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
+        Page<BookTransactionHistory> allBorrowedBooks = bookTransactionHistoryRepository.findAllReturnedBooks(pageable, user.getId());
+        List<BorrowedBookResponse> borrowedBookResponses = allBorrowedBooks.stream()
+                .map(bookMapper::toBorrowedBookResponse)
+                .toList();
+        return new PageResponse<>(
+                borrowedBookResponses,
+                allBorrowedBooks.getNumber(),
+                allBorrowedBooks.getSize(),
+                allBorrowedBooks.getTotalElements(),
+                allBorrowedBooks.getTotalPages(),
+                allBorrowedBooks.isFirst(),
+                allBorrowedBooks.isLast()
+        );
+    }
+
+    public Integer updateShareableStatus(Integer bookId, Authentication connectedUser) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("NOT_FOUND"));
+        User user = (User) connectedUser.getPrincipal();
+        if(!Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("You can not change the status because you are not the owner of the resource");
+        }
+        book.setShareable(!book.isShareable());
+        bookRepository.save(book);
+        return book.getId();
+    }
+
+    public Integer updateArchiveStatus(Integer bookId, Authentication connectedUser) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("NOT_FOUND"));
+        User user = (User) connectedUser.getPrincipal();
+        if(!Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("You can not change the status because you are not the owner of the resource");
+        }
+        book.setArchived(!book.isArchived());
+        bookRepository.save(book);
+        return book.getId();
+    }
+
+    public Integer borrowBook(Integer bookId, Authentication connectedUser) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("NOT_FOUND"));
+        User user = (User) connectedUser.getPrincipal();
+        if (book.isArchived() || !book.isShareable()){
+            throw new OperationNotPermittedException("The requested resource cant not be borrowed because it is archived or not shareable");
+        }
+        if(Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("You can not change the status because you are the owner of the resource");
+        }
+        final boolean isAlreadyBorrowed = bookTransactionHistoryRepository.isAlreadyBorrowedByUser(bookId, user.getId());
+        if (isAlreadyBorrowed){
+            throw new OperationNotPermittedException("The requested resource is already borrowed");
+        }
+        BookTransactionHistory bookTransactionHistory = BookTransactionHistory.builder()
+                .book(book)
+                .user(user)
+                .returned(false)
+                .returnApproved(false)
+                .build();
+        BookTransactionHistory savedBookTransactionHistory = bookTransactionHistoryRepository.save(bookTransactionHistory);
+        return savedBookTransactionHistory.getId();
+    }
+
+    public Integer returnBorrowBook(Integer bookId, Authentication connectedUser) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("NOT_FOUND"));
+        User user = (User) connectedUser.getPrincipal();
+        if (book.isArchived() || !book.isShareable()){
+            throw new OperationNotPermittedException("The requested resource cant not be borrowed because it is archived or not shareable");
+        }
+        if(Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("You can not change the status because you are the owner of the resource");
+        }
+
+        BookTransactionHistory bookTransactionHistory =
+                bookTransactionHistoryRepository.findByBookIdAndUserId(
+                        bookId, user.getId()
+                ).orElseThrow(() -> new OperationNotPermittedException("You can not borrow this book"));
+
+        bookTransactionHistory.setReturned(true);
+        BookTransactionHistory savedBookTransactionHistory = bookTransactionHistoryRepository.save(bookTransactionHistory);
+        return savedBookTransactionHistory.getId();
     }
 }
