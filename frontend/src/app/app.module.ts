@@ -7,9 +7,9 @@ import { LoginComponent } from './page/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './page/home/home.component';
-import { RegisterComponent } from './page/register/register.component';
 import { ActivateAccountComponent } from './page/activate-account/activate-account.component';
 import {CodeInputModule} from "angular-code-input";
+import { RegisterComponent } from './page/register/register.component';
 
 @NgModule({
   declarations: [

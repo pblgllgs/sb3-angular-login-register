@@ -123,3 +123,5 @@ Gbackend/src/main/java/com/pblgllgs/backend/feedback/FeedbackMapper.java,f\4\f4
 Kbackend/src/main/java/com/pblgllgs/backend/feedback/FeedbackRepository.java,6\5\6595a29ae51096161d4d0a1751e4ec8969c6c1b0
 y
 Ibackend/src/main/java/com/pblgllgs/backend/feedback/FeedBackResponse.java,9\3\93a3d84a299da346bc3c0b5d86d56f63d5bd2920
+t
+Dbackend/src/main/java/com/pblgllgs/backend/config/OpenApiConfig.java,8\4\84c9911142bc53d34e3316e9cf55ff01b514eadf

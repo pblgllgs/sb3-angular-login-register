@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthenticationService} from 'src/app/services/services';
+import { AuthenticationService } from 'src/app/services/services';
 
 @Component({
   selector: 'app-activate-account',
