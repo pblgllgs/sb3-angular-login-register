@@ -7,6 +7,7 @@ package com.pblgllgs.backend.book;
  */
 
 import com.pblgllgs.backend.common.PageResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,7 +41,7 @@ public class BookController {
     @GetMapping
     public ResponseEntity<PageResponse<BookResponse>> findAllBooks(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
-            @RequestParam(name = "size", defaultValue = "0", required = false) int size,
+            @RequestParam(name = "size", defaultValue = "5", required = false) int size,
             Authentication connectedUser
     ) {
         return new ResponseEntity<>(bookService.findAllProducts(page, size, connectedUser), HttpStatus.OK);
@@ -48,7 +50,7 @@ public class BookController {
     @GetMapping("/owner")
     public ResponseEntity<PageResponse<BookResponse>> findAllBooksByOwner(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
-            @RequestParam(name = "size", defaultValue = "0", required = false) int size,
+            @RequestParam(name = "size", defaultValue = "5", required = false) int size,
             Authentication connectedUser
     ) {
         return new ResponseEntity<>(bookService.findAllBooksByOwner(page, size, connectedUser), HttpStatus.OK);
@@ -57,7 +59,7 @@ public class BookController {
     @GetMapping("/borrowed")
     public ResponseEntity<PageResponse<BorrowedBookResponse>> findAllBorrowedBooks(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
-            @RequestParam(name = "size", defaultValue = "0", required = false) int size,
+            @RequestParam(name = "size", defaultValue = "5", required = false) int size,
             Authentication connectedUser
     ) {
         return new ResponseEntity<>(bookService.findAllBorrowedBooks(page, size, connectedUser), HttpStatus.OK);
@@ -66,7 +68,7 @@ public class BookController {
     @GetMapping("/returned")
     public ResponseEntity<PageResponse<BorrowedBookResponse>> findAllReturnedBooks(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
-            @RequestParam(name = "size", defaultValue = "0", required = false) int size,
+            @RequestParam(name = "size", defaultValue = "5", required = false) int size,
             Authentication connectedUser
     ) {
         return new ResponseEntity<>(bookService.findAllReturnedBooks(page, size, connectedUser), HttpStatus.OK);
@@ -102,6 +104,25 @@ public class BookController {
             Authentication connectedUser
     ){
         return new ResponseEntity<>(bookService.returnBorrowBook(bookId,connectedUser), HttpStatus.OK);
+    }
+
+    @PatchMapping("/borrow/return/approve/{bookId}")
+    public ResponseEntity<Integer> approveReturnBorrowBook(
+            @PathVariable("bookId") Integer bookId,
+            Authentication connectedUser
+    ){
+        return new ResponseEntity<>(bookService.approveReturnBorrowBook(bookId,connectedUser), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/cover/{bookId}", consumes = "multipart/form-data")
+    public ResponseEntity<?> uploadBookCoverPicture(
+            @PathVariable Integer bookId,
+            @Parameter()
+            @RequestPart("file") MultipartFile file,
+            Authentication connectedUser
+    ) {
+        bookService.uploadBookCoverPicture(file, connectedUser, bookId);
+        return ResponseEntity.accepted().build();
     }
 
 }
