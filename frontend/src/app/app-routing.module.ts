@@ -8,22 +8,29 @@ import { ActivateAccountComponent } from './page/activate-account/activate-accou
 const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'home',
-    component: HomeComponent
-  },{
+    component: HomeComponent,
+  },
+  {
     path: 'register',
-    component: RegisterComponent
-  },{
+    component: RegisterComponent,
+  },
+  {
     path: 'activate-account',
-    component: ActivateAccountComponent
-  }
+    component: ActivateAccountComponent,
+  },
+  {
+    path: 'books',
+    loadChildren: () =>
+      import('./modules/book/book.module').then((m) => m.BookModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

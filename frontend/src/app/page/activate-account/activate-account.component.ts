@@ -33,6 +33,7 @@ export class ActivateAccountComponent {
         next: () => {
           this.message = 'Your account has been successfully activated.\nNow you can login in';
           this.submitted = true;
+          this.isOk = true;
         },
         error: () => {
           this.message = 'The token has been expired.';
