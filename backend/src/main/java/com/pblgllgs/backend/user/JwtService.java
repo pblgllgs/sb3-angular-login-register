@@ -46,8 +46,8 @@ public class JwtService {
     ) {
         List<String> authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
                 .setClaims(claims)
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .claim("authorities", authorities)
