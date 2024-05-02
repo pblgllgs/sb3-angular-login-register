@@ -1,19 +1,19 @@
-<h3>Books lists</h3>
-<div
-  *ngIf="message"
-  class="alert"
-  [class.alert-success]="level === 'success'"
-  [class.alert-danger]="level === 'error'"
->
-  {{ message }}
-</div>
+<h3>My Books lists</h3>
 <hr />
+<div class="d-flex justify-content-end mb-3">
+  <a routerLink="/books/manage" class="btn btn-outline-primary">
+    <i class="fas fa-plus"></i>&nbsp;New Book
+  </a>
+</div>
 <div class="d-flex justify-content-start gap-2 flex-wrap">
   <app-book-card
     [book]="book"
     *ngFor="let book of bookResponse.content"
-    (borrow)="borrowBook($event)"
-  >
+    [manage]="true"
+    (archive)="archiveBook($event)"
+    (share)="shareBook($event)"
+    (edit)="editBook($event)"
+    >
     {{ book.title }}
   </app-book-card>
 </div>
