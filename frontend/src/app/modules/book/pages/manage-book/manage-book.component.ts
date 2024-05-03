@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BookRequest } from 'src/app/services/models';
 import { BookService } from 'src/app/services/services';
 
@@ -8,8 +8,37 @@ import { BookService } from 'src/app/services/services';
   templateUrl: './manage-book.component.html',
   styleUrls: ['./manage-book.component.scss'],
 })
-export class ManageBookComponent {
-  constructor(private bookService: BookService, private router: Router) {}
+export class ManageBookComponent implements OnInit {
+  constructor(
+    private bookService: BookService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    const bookId = this.activatedRoute.snapshot.params['bookId'];
+    if (bookId) {
+      this.bookService
+        .findBookById({
+          bookId: bookId,
+        })
+        .subscribe({
+          next: (book) => {
+            this.bookRequest = {
+              id: book.id,
+              authorName: book.authorName as string,
+              title: book.title as string,
+              isbn: book.isbn as string,
+              synopsis: book.synopsis as string,
+              shareable: book.shareable,
+            };
+            if (book.cover) {
+              this.selectedPicture = 'data:image/jpg;base64,' + book.cover;
+            }
+          },
+        });
+    }
+  }
 
   errorMsg: Array<string> = [];
   selectedPicture: string | undefined;
@@ -54,7 +83,7 @@ export class ManageBookComponent {
         },
         error: (err) => {
           this.errorMsg = err.error.validationErrors;
-        } 
+        },
       });
   }
 }

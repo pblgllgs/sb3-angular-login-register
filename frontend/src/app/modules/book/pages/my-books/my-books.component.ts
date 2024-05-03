@@ -33,16 +33,32 @@ export class MyBooksComponent implements OnInit {
       });
   }
 
-  editBook($event: BookResponse) {
-    throw new Error('Method not implemented.');
+  editBook(book: BookResponse) {
+    this.router.navigate(['books', 'manage', book.id]);
   }
 
-  shareBook($event: BookResponse) {
-    throw new Error('Method not implemented.');
+  shareBook(book: BookResponse) {
+    this.bookService
+      .updateShareableStatus({
+        'bookId': book.id as number,
+      })
+      .subscribe({
+        next: () => {
+          book.shareable = !book.shareable;
+        },
+      });
   }
 
-  archiveBook($event: BookResponse) {
-    throw new Error('Method not implemented.');
+  archiveBook(book: BookResponse) {
+    this.bookService
+      .updateArchivedStatus({
+        'bookId': book.id as number,
+      })
+      .subscribe({
+        next: () => {
+          book.archived = !book.archived;
+        },
+      });
   }
 
   get isLastPage(): boolean {

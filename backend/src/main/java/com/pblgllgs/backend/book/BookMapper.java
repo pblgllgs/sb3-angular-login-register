@@ -10,16 +10,15 @@ import com.pblgllgs.backend.book.file.FileUtils;
 import com.pblgllgs.backend.history.BookTransactionHistory;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class BookMapper {
 
-    public Book toBook(BookRequest bookRequest){
+    public Book toBook(BookRequest bookRequest) {
         return Book.builder()
                 .id(bookRequest.id())
                 .title(bookRequest.title())
                 .authorName(bookRequest.authorName())
+                .isbn(bookRequest.isbn())
                 .synopsis(bookRequest.synopsis())
                 .archived(false)
                 .shareable(bookRequest.shareable())
