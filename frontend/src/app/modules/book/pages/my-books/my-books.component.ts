@@ -13,7 +13,7 @@ import { BookService } from 'src/app/services/services';
 })
 export class MyBooksComponent implements OnInit {
   page = 0;
-  size = 2;
+  size = 3;
   bookResponse: PageResponseBookResponse = {};
 
   constructor(private bookService: BookService, private router: Router) {}
