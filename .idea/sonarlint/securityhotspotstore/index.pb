@@ -171,3 +171,7 @@ f
 6frontend/src/app/services/services/feedback.service.ts,0\3\039ac1cafc1295c9b5ccaaa6ad3aca053722e2b3
 b
 2frontend/src/app/services/services/book.service.ts,6\5\65d0880103555640f78047c8585ecb0d2c101cc9
+]
+-frontend/src/app/services/guard/auth.guard.ts,8\9\898af288f0d6c141b429b1f033aa0735eebf2802
+w
+Gbackend/src/test/java/com/pblgllgs/backend/BackendApplicationTests.java,f\3\f310a880d4e5b228e5fc7a9283d150084583aa2c

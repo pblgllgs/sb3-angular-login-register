@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../../services/services/authentication.service";
+import {TokenService} from "../../../../services/token/token.service";
 
 @Component({
   selector: 'app-menu',
@@ -21,12 +22,13 @@ export class MenuComponent implements OnInit {
         link.classList.add('active');
       });
     });
-    this.username = localStorage.getItem('username');
+    const token = this.tokenService.token;
+    this.username = this.tokenService.getSubjectFromToken(token);
   }
 
   constructor(
     private router: Router,
-    private userService: AuthenticationService
+    private tokenService: TokenService
   ) {
   }
 
