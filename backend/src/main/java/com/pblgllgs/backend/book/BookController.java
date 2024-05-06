@@ -111,7 +111,7 @@ public class BookController {
             @PathVariable("bookId") Integer bookId,
             Authentication connectedUser
     ){
-        return new ResponseEntity<>(bookService.approveReturnBorrowBook(bookId,connectedUser), HttpStatus.OK);
+        return new ResponseEntity<>(bookService.approveReturnBorrowedBook(bookId,connectedUser), HttpStatus.OK);
     }
 
     @PostMapping(value = "/cover/{bookId}", consumes = "multipart/form-data")

@@ -45,7 +45,7 @@ public class BookService {
         return bookRepository
                 .findById(bookId)
                 .map(bookMapper::toBookResponse)
-                .orElseThrow(() -> new ResourceNotFoundException("NOT_FOUND"));
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + bookId));
     }
 
     public PageResponse<BookResponse> findAllBooks(int page, int size, Authentication connectedUser) {
@@ -121,7 +121,7 @@ public class BookService {
     }
 
     public Integer updateShareableStatus(Integer bookId, Authentication connectedUser) {
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("NOT_FOUND"));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + bookId));
         User user = (User) connectedUser.getPrincipal();
         if (!Objects.equals(book.getOwner().getId(), user.getId())) {
             throw new OperationNotPermittedException("You can not change the status because you are not the owner of the resource");
@@ -132,7 +132,7 @@ public class BookService {
     }
 
     public Integer updateArchiveStatus(Integer bookId, Authentication connectedUser) {
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("NOT_FOUND"));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + bookId));
         User user = (User) connectedUser.getPrincipal();
         if (!Objects.equals(book.getOwner().getId(), user.getId())) {
             throw new OperationNotPermittedException("You can not change the status because you are not the owner of the resource");
@@ -143,7 +143,7 @@ public class BookService {
     }
 
     public Integer borrowBook(Integer bookId, Authentication connectedUser) {
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("NOT_FOUND"));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + bookId));
         User user = (User) connectedUser.getPrincipal();
         if (book.isArchived() || !book.isShareable()) {
             throw new OperationNotPermittedException("The requested resource cant not be borrowed because it is archived or not shareable");
@@ -166,7 +166,7 @@ public class BookService {
     }
 
     public Integer returnBorrowBook(Integer bookId, Authentication connectedUser) {
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("NOT_FOUND"));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + bookId));
         User user = (User) connectedUser.getPrincipal();
         if (book.isArchived() || !book.isShareable()) {
             throw new OperationNotPermittedException("The requested resource cant not be borrowed because it is archived or not shareable");
@@ -185,13 +185,13 @@ public class BookService {
         return savedBookTransactionHistory.getId();
     }
 
-    public Integer approveReturnBorrowBook(Integer bookId, Authentication connectedUser) {
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("NOT_FOUND"));
+    public Integer approveReturnBorrowedBook(Integer bookId, Authentication connectedUser) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + bookId));
         User user = (User) connectedUser.getPrincipal();
         if (book.isArchived() || !book.isShareable()) {
             throw new OperationNotPermittedException("The requested resource cant not be borrowed because it is archived or not shareable");
         }
-        if (Objects.equals(book.getOwner().getId(), user.getId())) {
+        if (!Objects.equals(book.getOwner().getId(), user.getId())) {
             throw new OperationNotPermittedException("You can not change the status because you are the owner of the resource");
         }
         BookTransactionHistory bookTransactionHistory =
@@ -204,7 +204,7 @@ public class BookService {
     }
 
     public void uploadBookCoverPicture(MultipartFile file, Authentication connectedUser, Integer bookId) {
-        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("NOT_FOUND"));
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + bookId));
         User user = (User) connectedUser.getPrincipal();
         var bookCover = fileStorageService.saveFile(file, user.getId());
         book.setBookCover(bookCover);

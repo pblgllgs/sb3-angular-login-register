@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
+import {AuthenticationService} from "../../../../services/services/authentication.service";
 
 @Component({
   selector: 'app-menu',
@@ -6,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
+  username: string | null = '';
+
   ngOnInit(): void {
     const linkColor = document.querySelectorAll('.nav-link');
     linkColor.forEach((link) => {
@@ -17,8 +21,17 @@ export class MenuComponent implements OnInit {
         link.classList.add('active');
       });
     });
+    this.username = localStorage.getItem('username');
   }
+
+  constructor(
+    private router: Router,
+    private userService: AuthenticationService
+  ) {
+  }
+
   logout() {
-    console.log('LOGOUT');
+    localStorage.removeItem('token');
+    this.router.navigate(['login']);
   }
 }

@@ -13,7 +13,7 @@ import { BookService } from 'src/app/services/services';
 })
 export class BookListComponent implements OnInit {
   page = 0;
-  size = 2;
+  size = 4;
   bookResponse: PageResponseBookResponse = {};
   message: string = '';
   level = 'success';
