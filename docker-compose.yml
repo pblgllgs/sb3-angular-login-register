@@ -18,14 +18,34 @@ services:
       retries: 10
     networks:
       - spring
-
   mail_dev:
     container_name: mail_dev
     image: maildev/maildev:2.1.0
     ports:
       - "1080:1080"
       - "1025:1025"
-
+  social-backend:
+    container_name: social-backend
+    image: pblgllgs/social-backend:1.0.3
+    ports:
+      - "8088:8088"
+    environment:
+      USERNAME_EMAIL: ${USERNAME_EMAIL}
+      GOOGLE_PASSWORD: ${GOOGLE_PASSWORD}
+    networks:
+      - spring
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+  social-frontend:
+    container_name: social-frontend
+    image: pblgllgs/social-frontend:1.0.0
+    ports:
+      - "8080:80"
+    networks:
+      - spring
+    depends_on:
+      - social-backend
 volumes:
   volume_postgres_db_app:
     external: false
