@@ -1,7 +1,9 @@
 
-D
-java:S19488"'Make "roles" transient or serializable.(ÿÎÌ“8±ğ­ûò1
-D
-java:S1948;"'Make "books" transient or serializable.(²Èàù8²ğ­ûò1
-M
-java:S1948>"+Make "histories" transient or serializable.(¼ëÙ¤ûÿÿÿÿ8²ğ­ûò1
+j
+java:S19488"'Make "roles" transient or serializable.(ÿÎÌ“8±ğ­ûò1J$100945bf-cbb8-4462-b9ec-66f15fad3024
+j
+java:S1948;"'Make "books" transient or serializable.(²Èàù8²ğ­ûò1J$186e184c-a5f1-449c-b92f-0e26db1eaed0
+s
+java:S1948>"+Make "histories" transient or serializable.(¼ëÙ¤ûÿÿÿÿ8²ğ­ûò1J$36dfb666-d5b8-42e3-adf0-d33841fb1f67
+|
+java:S1128"_Remove this unused import 'org.springframework.data.jpa.domain.support.AuditingEntityListener'.(µıÄ¸8ÚÏã®õ1

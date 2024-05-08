@@ -31,12 +31,13 @@ spring:
         starttls:
           enable: true
     protocol: smtp
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/book-social-realm
 
 application:
-  security:
-    jwt:
-      expiration: 63000000
-      secret: 2bb80d537b1da3e38bd30361aa855686bde0eacd7162fef6a25fe97bf527a25b
   mailing:
     frontend:
       activation-url: http://localhost:4200/activate-account

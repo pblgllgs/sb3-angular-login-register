@@ -30,99 +30,99 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
+//@Service
+//@RequiredArgsConstructor
 public class AuthenticationService {
-
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final TokenRepository tokenRepository;
-    private final EmailService emailService;
-    private final EmailServiceProperties emailServiceProperties;
-    private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
-
-    @Transactional
-    public void register(RegistrationRequest registrationRequest) throws MessagingException {
-        Role role = roleRepository.findByName("USER").orElseThrow(() -> new ResourceNotFoundException("ROLE_NOT_FOUND"));
-        Optional<User> userOptional = userRepository.findByEmail(registrationRequest.email());
-        if (userOptional.isPresent()){
-            throw new DataIntegrityViolationException("User already exists");
-        }
-        User user = User.builder()
-                .firstname(registrationRequest.firstname())
-                .lastname(registrationRequest.lastname())
-                .email(registrationRequest.email())
-                .password(passwordEncoder.encode(registrationRequest.password()))
-                .accountLocked(false)
-                .enabled(false)
-                .roles(List.of(role))
-                .build();
-        User userSaved = userRepository.save(user);
-        sendValidationEmail(userSaved);
-    }
-
-    private void sendValidationEmail(User userSaved) throws MessagingException {
-        var newToken = generateAndSaveActivationToken(userSaved);
-        emailService.sendEmail(
-                userSaved.getEmail(),
-                userSaved.fullName(),
-                EmailTemplateName.ACTIVATE_ACCOUNT,
-                emailServiceProperties.getActivationUrl(),
-                newToken,
-                "Account activation"
-        );
-    }
-
-    private String generateAndSaveActivationToken(User userSaved) {
-        String generatedCode = generateActivationCode(6);
-        var token = Token.builder()
-                .code(generatedCode)
-                .createdAt(LocalDateTime.now())
-                .expiresAt(LocalDateTime.now().plusMinutes(15))
-                .user(userSaved)
-                .build();
-        tokenRepository.save(token);
-        return generatedCode;
-    }
-
-    private String generateActivationCode(int length) {
-        String characters = "0123456789";
-        StringBuilder code = new StringBuilder();
-        SecureRandom secureRandom = new SecureRandom();
-        for (int i = 0; i < length; i++) {
-            int randomIndex = secureRandom.nextInt(characters.length());
-            code.append(characters.charAt(randomIndex));
-        }
-        return code.toString();
-    }
-
-    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
-        Authentication authenticate = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.email(),
-                        authenticationRequest.password()
-                )
-        );
-        var claims = new HashMap<String, Object>();
-        var userDetails = ((User) authenticate.getPrincipal());
-        claims.put("fullname", userDetails.fullName());
-        var jwt = jwtService.generateToken(claims, userDetails);
-        return new AuthenticationResponse(jwt);
-    }
-
-    @Transactional
-    public void activateAccount(String code) throws MessagingException {
-        Token savedToken = tokenRepository.findByCode(code).orElseThrow(() -> new ResourceNotFoundException("TOKEN_NOT_FOUND"));
-        if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
-            sendValidationEmail(savedToken.getUser());
-            throw new ActivationCodeExpiredException("Activation code is expired, a new token has been sent");
-        }
-        User user = userRepository.findById(savedToken.getUser().getId()).orElseThrow(() -> new ResourceNotFoundException("USER_NOT_FOUND"));
-        user.setEnabled(true);
-        userRepository.save(user);
-        savedToken.setValidatedAt(LocalDateTime.now());
-        tokenRepository.save(savedToken);
-    }
+//
+//    private final UserRepository userRepository;
+//    private final RoleRepository roleRepository;
+//    private final PasswordEncoder passwordEncoder;
+//    private final TokenRepository tokenRepository;
+//    private final EmailService emailService;
+//    private final EmailServiceProperties emailServiceProperties;
+//    private final AuthenticationManager authenticationManager;
+//    private final JwtService jwtService;
+//
+//    @Transactional
+//    public void register(RegistrationRequest registrationRequest) throws MessagingException {
+//        Role role = roleRepository.findByName("USER").orElseThrow(() -> new ResourceNotFoundException("ROLE_NOT_FOUND"));
+//        Optional<User> userOptional = userRepository.findByEmail(registrationRequest.email());
+//        if (userOptional.isPresent()){
+//            throw new DataIntegrityViolationException("User already exists");
+//        }
+//        User user = User.builder()
+//                .firstname(registrationRequest.firstname())
+//                .lastname(registrationRequest.lastname())
+//                .email(registrationRequest.email())
+//                .password(passwordEncoder.encode(registrationRequest.password()))
+//                .accountLocked(false)
+//                .enabled(false)
+//                .roles(List.of(role))
+//                .build();
+//        User userSaved = userRepository.save(user);
+//        sendValidationEmail(userSaved);
+//    }
+//
+//    private void sendValidationEmail(User userSaved) throws MessagingException {
+//        var newToken = generateAndSaveActivationToken(userSaved);
+//        emailService.sendEmail(
+//                userSaved.getEmail(),
+//                userSaved.fullName(),
+//                EmailTemplateName.ACTIVATE_ACCOUNT,
+//                emailServiceProperties.getActivationUrl(),
+//                newToken,
+//                "Account activation"
+//        );
+//    }
+//
+//    private String generateAndSaveActivationToken(User userSaved) {
+//        String generatedCode = generateActivationCode(6);
+//        var token = Token.builder()
+//                .code(generatedCode)
+//                .createdAt(LocalDateTime.now())
+//                .expiresAt(LocalDateTime.now().plusMinutes(15))
+//                .user(userSaved)
+//                .build();
+//        tokenRepository.save(token);
+//        return generatedCode;
+//    }
+//
+//    private String generateActivationCode(int length) {
+//        String characters = "0123456789";
+//        StringBuilder code = new StringBuilder();
+//        SecureRandom secureRandom = new SecureRandom();
+//        for (int i = 0; i < length; i++) {
+//            int randomIndex = secureRandom.nextInt(characters.length());
+//            code.append(characters.charAt(randomIndex));
+//        }
+//        return code.toString();
+//    }
+//
+//    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
+//        Authentication authenticate = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        authenticationRequest.email(),
+//                        authenticationRequest.password()
+//                )
+//        );
+//        var claims = new HashMap<String, Object>();
+//        var userDetails = ((User) authenticate.getPrincipal());
+//        claims.put("fullname", userDetails.fullName());
+//        var jwt = jwtService.generateToken(claims, userDetails);
+//        return new AuthenticationResponse(jwt);
+//    }
+//
+//    @Transactional
+//    public void activateAccount(String code) throws MessagingException {
+//        Token savedToken = tokenRepository.findByCode(code).orElseThrow(() -> new ResourceNotFoundException("TOKEN_NOT_FOUND"));
+//        if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
+//            sendValidationEmail(savedToken.getUser());
+//            throw new ActivationCodeExpiredException("Activation code is expired, a new token has been sent");
+//        }
+//        User user = userRepository.findById(savedToken.getUser().getId()).orElseThrow(() -> new ResourceNotFoundException("USER_NOT_FOUND"));
+//        user.setEnabled(true);
+//        userRepository.save(user);
+//        savedToken.setValidatedAt(LocalDateTime.now());
+//        tokenRepository.save(savedToken);
+//    }
 }

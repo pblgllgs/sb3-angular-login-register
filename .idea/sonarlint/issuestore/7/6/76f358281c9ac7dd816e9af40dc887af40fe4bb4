@@ -1,9 +1,11 @@
 
 
-java:S11925"LDefine a constant instead of duplicating this literal "createdDate" 4 times.(Ê™¼8ã…Óò1J$52f1d7b7-467e-4c1b-bd99-66468bf8a23b
+java:S11921"LDefine a constant instead of duplicating this literal "createdDate" 4 times.(Ê™¼8¡¡ƒ¯õ1J$3cbb6c1c-a812-4065-88bc-6d22038f2756
 Í
-java:S1192˜"ˆDefine a constant instead of duplicating this literal "You can not change the status because you are the owner of the resource" 3 times.(±‡ÖÓ8ã…Óò1J$ca86624f-2e2f-456c-b7c9-1ef34c27c590
+java:S1192"ˆDefine a constant instead of duplicating this literal "You can not change the status because you are the owner of the resource" 3 times.(±‡ÖÓ8¡¡ƒ¯õ1J$07e3a0e7-42fa-4c7d-9647-63f83e514b75
 Ş
-java:S1192•"”Define a constant instead of duplicating this literal "The requested resource cant not be borrowed because it is archived or not shareable" 3 times.(âïÜ¬şÿÿÿÿ8ã…Óò1J$5dfb5894-0da3-4009-b07f-6dba42ea807e
+java:S1192‹"”Define a constant instead of duplicating this literal "The requested resource cant not be borrowed because it is archived or not shareable" 3 times.(âïÜ¬şÿÿÿÿ8¡¡ƒ¯õ1J$d73ff654-024c-4868-bcb3-17465fe53477
 œ
-java:S11920"YDefine a constant instead of duplicating this literal "Book not found with id: " 7 times.(›€è€8¢¨ôô1J$3b5c25e7-e08c-4a7f-a4a7-6e7cc333dfdf
+java:S1192-"YDefine a constant instead of duplicating this literal "Book not found with id: " 7 times.(›€è€8¡¡ƒ¯õ1J$0289ddfc-8224-4523-8737-0bf3724c0944
+|
+java:S1172#"4Remove this unused method parameter "connectedUser".(¢Ğ´Èùÿÿÿÿ8¸¡ƒ¯õ1J$1c0e801c-bea2-4f67-95eb-8b77a35a0cda

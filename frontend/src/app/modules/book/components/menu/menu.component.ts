@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../../../services/services/authentication.service";
 import {TokenService} from "../../../../services/token/token.service";
+import {KeycloakService} from "../../../../services/keycloak/keycloak.service";
 
 @Component({
   selector: 'app-menu',
@@ -22,18 +23,16 @@ export class MenuComponent implements OnInit {
         link.classList.add('active');
       });
     });
-    const token = this.tokenService.token;
-    this.username = this.tokenService.getSubjectFromToken(token);
+    this.username = this.keycloakService.profile?.username as string;
   }
 
   constructor(
     private router: Router,
-    private tokenService: TokenService
+    private keycloakService: KeycloakService
   ) {
   }
 
-  logout() {
-    localStorage.removeItem('token');
-    this.router.navigate(['login']);
+  async logout() {
+    await this.keycloakService.logout()
   }
 }

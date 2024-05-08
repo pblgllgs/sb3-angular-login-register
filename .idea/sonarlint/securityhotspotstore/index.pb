@@ -185,8 +185,6 @@ C
 frontend/nginx.conf,b\4\b4d299c493664e0cd16afc151d53f70774ba19cc
 B
 backend/.gitignore,7\e\7e16691a9fc60084a157565ec422c8094d3df67c
-;
-docker/.env,1\d\1d24bb718a81e826684363b3a04a856b29508ed4
 4
 .env,3\c\3c84dcdc6bbe3d7817c49dcdc327b926fea1808a
 :
@@ -202,3 +200,9 @@ M
 docker/frontend/.env.template,f\f\ffa29696fb0471a9c69e2448c0062dc1cb8e46b9
 =
 .env.template,c\b\cba580618a52ae1531e8a3a2da7595593afd602d
+f
+6frontend/src/app/services/keycloak/keycloak.service.ts,1\6\16c44eaa406fce22080c41b70cd138255666f068
+b
+2frontend/src/app/services/keycloak/user-profile.ts,a\f\af91b12e5e1e22ec686890cb013a631768707508
+‹
+[backend/src/main/java/com/pblgllgs/backend/security/KeycloakJwtAuthenticationConverter.java,6\a\6abca66e684eb98d5dc4f859e97f820265080a3e

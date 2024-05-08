@@ -1,3 +1,13 @@
 
-i
-java:S1452"&Remove usage of generic wildcard type.(ëÃ»ã8Ä¯óíì1J$5071e017-9005-4691-86b8-d6b06e8f0741
+~	java:S125"<This block of commented-out lines of code should be removed.(èÂ¢ä8ì–®¯õ1J$6aeb2b97-5511-4ce5-bf29-a236e9c16fc2
+„
+java:S1128
+"<Remove this unused import 'jakarta.mail.MessagingException'.(´öáùıÿÿÿÿ8ì–®¯õ1J$54336c7e-90b3-4c2c-8652-f855b7f631b5
+}
+java:S1128"5Remove this unused import 'jakarta.validation.Valid'.(ÀãÅ”ûÿÿÿÿ8í–®¯õ1J$6c96c882-d88b-4fb1-8308-ce4f101fe36d
+ˆ
+java:S1128"@Remove this unused import 'org.springframework.http.HttpStatus'.(íŸ¤Šúÿÿÿÿ8í–®¯õ1J$3e996001-1ff1-4181-ba6b-23b7a994f118
+Œ
+java:S1128"DRemove this unused import 'org.springframework.http.ResponseEntity'.(¶¯ø¦úÿÿÿÿ8í–®¯õ1J$5e2c4b44-974b-409c-958d-bfbeb27473cb
+‡
+java:S1128"DRemove this unused import 'org.springframework.web.bind.annotation'.(Ñ»ïÒ8í–®¯õ1J$8ab86c1b-12f9-4aed-b3b6-e1be6197a0f8

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
+//@Entity
 public class Token {
 
     @Id
@@ -27,11 +27,11 @@ public class Token {
     private LocalDateTime expiresAt;
     private LocalDateTime validatedAt;
 
-    @ManyToOne
-    @JoinColumn(
-            name = "userId",
-            referencedColumnName = "id",
-            nullable = false
-    )
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(
+//            name = "userId",
+//            referencedColumnName = "id",
+//            nullable = false
+//    )
+//    private User user;
 }

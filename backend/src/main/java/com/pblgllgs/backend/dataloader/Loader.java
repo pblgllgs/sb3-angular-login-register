@@ -12,22 +12,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
-public class Loader implements CommandLineRunner {
+//@Component
+//@RequiredArgsConstructor
+public class Loader {//implements CommandLineRunner {
 
-    private final RoleRepository roleRepository;
-
-    @Override
-    public void run(String... args) throws Exception {
-        if(roleRepository.findByName("USER").isEmpty()) {
-            Role adminRole = new Role();
-            adminRole.setName("ADMIN");
-            roleRepository.save(adminRole);
-
-            Role userAdmin = new Role();
-            userAdmin.setName("USER");
-            roleRepository.save(userAdmin);
-        }
-    }
+//    private final RoleRepository roleRepository;
+//
+//    @Override
+//    public void run(String... args) throws Exception {
+//        if(roleRepository.findByName("USER").isEmpty()) {
+//            Role adminRole = new Role();
+//            adminRole.setName("ADMIN");
+//            roleRepository.save(adminRole);
+//
+//            Role userAdmin = new Role();
+//            userAdmin.setName("USER");
+//            roleRepository.save(userAdmin);
+//        }
+//    }
 }

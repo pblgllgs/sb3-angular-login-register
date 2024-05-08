@@ -34,13 +34,12 @@ public class FeedbackService {
     public Integer save(FeedbackRequest feedbackRequest, Authentication connectedUser) {
         Book book = bookRepository.findById(feedbackRequest.bookId())
                 .orElseThrow(() -> new ResourceNotFoundException("No book found with id: " + feedbackRequest.bookId()));
-        User user = (User) connectedUser.getPrincipal();
         if (book.isArchived() || !book.isShareable()) {
             throw new OperationNotPermittedException(
                     "You can not give a feedback for an archived or not shareable book"
             );
         }
-        if (Objects.equals(book.getOwner().getId(), user.getId())) {
+        if (Objects.equals(book.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException(
                     "You can not give a feedback to your own book"
             );

@@ -9,10 +9,7 @@ package com.pblgllgs.backend.history;
 import com.pblgllgs.backend.book.Book;
 import com.pblgllgs.backend.common.BaseEntity;
 import com.pblgllgs.backend.user.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,11 +25,13 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class BookTransactionHistory extends BaseEntity {
 
-    @ManyToOne
-    @JoinColumn(
-            name = "user_id"
-    )
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(
+//            name = "user_id"
+//    )
+//    private User user;
+    @Column(name = "user_id")
+    private String userId;
     @ManyToOne
     @JoinColumn(
             name = "book_id"
